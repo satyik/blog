@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  username String
+  email    String    @unique
+  password String
+  role     String    @default("user") // "admin" or "user"
+  posts    Post[]
+  comments Comment[]
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  content    String
+  image      String?
+  author     User       @relation(fields: [authorId], references: [id])
+  authorId   String     @db.ObjectId
+  categories Category[] @relation(fields: [categoryIds], references: [id])
+  categoryIds String[]  @db.ObjectId
+  tags       Tag[]      @relation(fields: [tagIds], references: [id])
+  tagIds     String[]   @db.ObjectId
+  comments   Comment[]
+  published  Boolean    @default(false)
+  views      Int        @default(0)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String @unique
+  posts Post[] @relation(fields: [postIds], references: [id])
+  postIds String[] @db.ObjectId
+}
+
+model Tag {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String @unique
+  posts Post[] @relation(fields: [postIds], references: [id])
+  postIds String[] @db.ObjectId
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String   @db.ObjectId
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  createdAt DateTime @default(now())
+}
