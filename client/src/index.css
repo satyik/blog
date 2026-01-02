@@ -469,26 +469,16 @@ body {
   font-size: 1.5rem;
 }
 
-.article-body {
-  font-size: 1.2rem;
-  line-height: 1.9;
-  text-align: left;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  white-space: normal;
-  overflow-wrap: break-word;
-  max-width: 100%;
-  padding: 2rem;
-  /* Match Admin Editor padding */
-}
-
-/* Match Editor to Article Styling */
+/* Shared Typography & Layout for Article and Editor */
+.article-body,
 .ql-editor {
+  /* Typography */
   font-family: 'Noticia Text', serif;
   font-size: 1.2rem;
   line-height: 1.9;
+  color: #2c2c2c;
+
+  /* Layout & Spacing */
   text-align: left;
   hyphens: auto;
   -webkit-hyphens: auto;
@@ -496,24 +486,63 @@ body {
   -ms-hyphens: auto;
   white-space: normal;
   overflow-wrap: break-word;
-  background-color: #fdf6e3;
-  /* Match newspaper background */
+  max-width: 100%;
   padding: 2rem !important;
-  /* Give it some breathing room */
-  color: #2c2c2c;
+  /* Enforce consistent padding */
 }
 
-.article-body img {
+/* Ensure Editor background matches Article context (Newspaper) */
+.ql-editor {
+  background-color: #fdf6e3;
+  min-height: 300px;
+  /* Ensure editable area is visible */
+}
+
+/* Image Handling */
+.article-body img,
+.ql-editor img {
   max-width: 100%;
   height: auto;
+  display: block;
+  margin: 2rem auto;
+  /* center images */
 }
 
-.article-body p {
-  margin-bottom: 1.8rem;
+/* Paragraph Spacing - Critical for WYSIWYG */
+.article-body p,
+.ql-editor p {
+  margin-bottom: 1.8rem !important;
+  /* Force identical spacing */
+  padding: 0;
+}
+
+/* Header Handling within Body */
+.article-body h1,
+.ql-editor h1,
+.article-body h2,
+.ql-editor h2,
+.article-body h3,
+.ql-editor h3 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.article-body h2,
+.ql-editor h2 {
+  font-size: 2rem;
+}
+
+.article-body h3,
+.ql-editor h3 {
+  font-size: 1.5rem;
 }
 
 /* Drop Cap for the first paragraph's first letter */
-.article-body>p:first-of-type::first-letter {
+.article-body>p:first-of-type::first-letter,
+.ql-editor>p:first-of-type::first-letter {
   font-family: var(--font-serif);
   float: left;
   font-size: 5rem;
