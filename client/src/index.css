@@ -472,11 +472,10 @@ body {
 .article-body {
   font-size: 1.2rem;
   line-height: 1.9;
-  text-align: justify;
+  line-height: 1.9;
+  text-align: left;
   white-space: normal;
   overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
   max-width: 100%;
 }
 
