@@ -482,6 +482,25 @@ body {
   max-width: 100%;
 }
 
+/* Match Editor to Article Styling */
+.ql-editor {
+  font-family: 'Noticia Text', serif;
+  font-size: 1.2rem;
+  line-height: 1.9;
+  text-align: left;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  white-space: normal;
+  overflow-wrap: break-word;
+  background-color: #fdf6e3;
+  /* Match newspaper background */
+  padding: 2rem !important;
+  /* Give it some breathing room */
+  color: #2c2c2c;
+}
+
 .article-body img {
   max-width: 100%;
   height: auto;
