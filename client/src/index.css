@@ -439,6 +439,7 @@ body {
   line-height: 1.1;
   color: #1a1a1a;
   margin: 1rem 0;
+  font-weight: 700;
 }
 
 .byline {
@@ -506,6 +507,18 @@ body {
   display: block;
   margin: 2rem auto;
   /* center images */
+}
+
+/* Specific overrides for Read-Only ReactQuill in Post Page */
+.article-body-editor .ql-container.ql-snow {
+  border: none !important;
+}
+
+.article-body-editor .ql-editor {
+  padding: 0 !important;
+  /* Remove default editor padding as we handle it in layout */
+  overflow-y: visible;
+  /* Ensure full height */
 }
 
 /* Paragraph Spacing - Critical for WYSIWYG */

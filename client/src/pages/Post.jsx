@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import 'react-quill-new/dist/quill.snow.css'; // Import Quill Styles to match Admin
+import ReactQuill from 'react-quill-new';
 
 const Post = () => {
     const { id } = useParams();
@@ -62,8 +63,13 @@ const Post = () => {
                     )}
                 </header>
 
-                <div className="ql-container ql-snow" style={{ border: 'none' }}>
-                    <div className="article-body ql-editor" dangerouslySetInnerHTML={{ __html: post.content }} />
+                <div className="article-body-editor">
+                    <ReactQuill
+                        value={post.content}
+                        readOnly={true}
+                        theme="snow"
+                        modules={{ toolbar: false }}
+                    />
                 </div>
 
                 <div className="separator"></div>
