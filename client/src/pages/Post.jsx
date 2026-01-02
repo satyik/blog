@@ -62,7 +62,9 @@ const Post = () => {
                     )}
                 </header>
 
-                <div className="article-body ql-editor" dangerouslySetInnerHTML={{ __html: post.content }} />
+                <div className="ql-container ql-snow" style={{ border: 'none' }}>
+                    <div className="article-body ql-editor" dangerouslySetInnerHTML={{ __html: post.content }} />
+                </div>
 
                 <div className="separator"></div>
 
