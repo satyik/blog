@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
+import 'react-quill-new/dist/quill.snow.css'; // Import Quill Styles to match Admin
 
 const Post = () => {
     const { id } = useParams();
@@ -61,7 +62,7 @@ const Post = () => {
                     )}
                 </header>
 
-                <div className="article-body" dangerouslySetInnerHTML={{ __html: post.content }} />
+                <div className="article-body ql-editor" dangerouslySetInnerHTML={{ __html: post.content }} />
 
                 <div className="separator"></div>
 
