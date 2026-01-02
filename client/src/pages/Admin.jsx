@@ -144,7 +144,7 @@ const Admin = () => {
 
             {(viewMode === 'create' || viewMode === 'edit') && (
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <form onSubmit={handlePublish} style={{ width: '100%', maxWidth: '900px' }}>
+                    <form onSubmit={handlePublish} style={{ width: '100%', maxWidth: '1100px' }}>
 
                         {/* Use the exact same layout wrapper as Post.jsx */}
                         <article className="newspaper-layout" style={{ margin: '0', paddingBottom: '2rem' }}>
