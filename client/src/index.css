@@ -473,6 +473,16 @@ body {
   font-size: 1.2rem;
   line-height: 1.9;
   text-align: justify;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.article-body img {
+  max-width: 100%;
+  height: auto;
 }
 
 .article-body p {
