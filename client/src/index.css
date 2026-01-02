@@ -785,3 +785,71 @@ body {
     padding: 2rem 1.5rem;
   }
 }
+
+/* Admin Editor Redesign Styles */
+.headline-input {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  text-align: center;
+  line-height: 1.1;
+  color: #1a1a1a;
+  margin: 1rem 0;
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+}
+
+.headline-input::placeholder {
+  color: #ccc;
+  font-style: italic;
+}
+
+.url-fallback-input {
+  width: 100%;
+  text-align: center;
+  border: none;
+  border-bottom: 1px dashed #ccc;
+  background: transparent;
+  padding: 0.5rem;
+  color: #888;
+  outline: none;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.feature-image-wrapper:hover .image-overlay {
+  opacity: 1;
+}
+
+/* Customize Quill Toolbar to blend in */
+.ql-toolbar.ql-snow {
+  border: none !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+  background: transparent !important;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-family: var(--font-main) !important;
+}
+
+.ql-container.ql-snow {
+  border: none !important;
+}

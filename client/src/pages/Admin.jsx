@@ -143,116 +143,127 @@ const Admin = () => {
             )}
 
             {(viewMode === 'create' || viewMode === 'edit') && (
-                <div className="editor-wrapper" style={{ background: 'white', padding: '3rem', borderRadius: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
-                    <h2 style={{ marginBottom: '2rem' }}>{viewMode === 'edit' ? 'Edit Post' : 'Write New Post'}</h2>
-                    <form onSubmit={handlePublish}>
-                        <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                            <input
-                                value={title}
-                                onChange={e => setTitle(e.target.value)}
-                                placeholder="Enter post title..."
-                                style={{
-                                    width: '100%', padding: '1rem', fontSize: '1.5rem', fontWeight: 'bold', border: 'none',
-                                    borderBottom: '2px solid #eee', outline: 'none', fontFamily: 'inherit'
-                                }}
-                                required
-                            />
-                        </div>
-                        <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Feature Image</label>
-                            <input
-                                type="file"
-                                onChange={async (e) => {
-                                    const file = e.target.files[0];
-                                    if (file) {
-                                        const formData = new FormData();
-                                        formData.append('image', file);
-                                        try {
-                                            const res = await api.post('/upload', formData, {
-                                                headers: { 'Content-Type': 'multipart/form-data' }
-                                            });
-                                            setImage(res.data.url);
-                                        } catch (err) {
-                                            console.error('Upload failed', err);
-                                            alert('Image upload failed');
-                                        }
-                                    }
-                                }}
-                                style={{
-                                    width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid #ddd',
-                                    fontSize: '1rem', fontFamily: 'inherit'
-                                }}
-                            />
-                            {/* Fallback URL input */}
-                            <input
-                                value={image}
-                                onChange={e => setImage(e.target.value)}
-                                placeholder="Or enter Image URL..."
-                                style={{
-                                    width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid #ddd',
-                                    fontSize: '1rem', fontFamily: 'inherit', marginTop: '0.5rem'
-                                }}
-                            />
-                        </div>
-                        {image && (
-                            <div style={{ marginBottom: '1.5rem' }}>
-                                <img src={image} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '12px', objectFit: 'cover' }} />
-                            </div>
-                        )}
-                        <div className="form-group" style={{ marginBottom: '2rem' }}>
-                            <ReactQuill
-                                theme="snow"
-                                value={content}
-                                onChange={setContent}
-                                modules={{
-                                    toolbar: {
-                                        container: [
-                                            [{ 'header': [1, 2, 3, false] }],
-                                            ['bold', 'italic', 'underline', 'strike'],
-                                            ['blockquote', 'code-block'],
-                                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                            ['link', 'image'],
-                                            ['clean']
-                                        ],
-                                        handlers: {
-                                            image: function () {
-                                                const input = document.createElement('input');
-                                                input.setAttribute('type', 'file');
-                                                input.setAttribute('accept', 'image/*');
-                                                input.click();
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <form onSubmit={handlePublish} style={{ width: '100%', maxWidth: '900px' }}>
 
-                                                input.onchange = async () => {
-                                                    const file = input.files[0];
-                                                    const formData = new FormData();
-                                                    formData.append('image', file);
+                        {/* Use the exact same layout wrapper as Post.jsx */}
+                        <article className="newspaper-layout" style={{ margin: '0', paddingBottom: '2rem' }}>
+                            <header className="article-header">
+                                {/* Mock Meta Top */}
+                                <div className="meta-top" style={{ textAlign: 'center', marginBottom: '1rem', color: '#666', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'var(--font-main)' }}>
+                                    {new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                                </div>
 
-                                                    try {
-                                                        const res = await api.post('/upload', formData, {
-                                                            headers: { 'Content-Type': 'multipart/form-data' }
-                                                        });
-                                                        const url = res.data.url;
-                                                        const quill = this.quill;
-                                                        const range = quill.getSelection();
-                                                        quill.insertEmbed(range.index, 'image', url);
-                                                    } catch (err) {
-                                                        console.error('Image upload failed', err);
-                                                        alert('Image upload failed');
-                                                    }
-                                                };
+                                {/* Headline Input */}
+                                <textarea
+                                    className="headline headline-input"
+                                    value={title}
+                                    onChange={e => {
+                                        setTitle(e.target.value);
+                                        e.target.style.height = 'auto';
+                                        e.target.style.height = e.target.scrollHeight + 'px';
+                                    }}
+                                    placeholder="Type Headline Here..."
+                                    rows={1}
+                                    required
+                                />
+
+                                {/* Mock Byline */}
+                                <div className="byline">
+                                    By <span className="author" style={{ fontWeight: 'bold' }}>{user?.username || 'You'}</span>
+                                    <span className="bullet"> • </span>
+                                    <span className="views">Draft Preview</span>
+                                </div>
+
+                                {/* Image Uploader / Feature Image */}
+                                <div className="feature-image-wrapper" style={{ marginBottom: '3rem', position: 'relative', minHeight: '100px', border: image ? 'none' : '2px dashed #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden' }}>
+
+                                    {image ? (
+                                        <>
+                                            <img src={image} alt="Feature" style={{ width: '100%', maxHeight: '600px', objectFit: 'cover', borderRadius: '4px', filter: 'sepia(0.2)' }} />
+                                            <div className="image-overlay" onClick={() => document.getElementById('feature-upload').click()}>
+                                                <span>Click to Change Image</span>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div onClick={() => document.getElementById('feature-upload').click()} style={{ padding: '3rem', textAlign: 'center', color: '#888' }}>
+                                            <p>Click to Upload Feature Image</p>
+                                            <p style={{ fontSize: '0.8rem' }}>(or paste URL below)</p>
+                                        </div>
+                                    )}
+
+                                    <input
+                                        id="feature-upload"
+                                        type="file"
+                                        onChange={async (e) => {
+                                            const file = e.target.files[0];
+                                            if (file) {
+                                                const formData = new FormData();
+                                                formData.append('image', file);
+                                                try {
+                                                    const res = await api.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+                                                    setImage(res.data.url);
+                                                } catch (err) { console.error(err); alert('Upload failed'); }
+                                            }
+                                        }}
+                                        style={{ display: 'none' }}
+                                    />
+                                </div>
+                                {/* Fallback URL input (small and unobtrusive) */}
+                                {!image && (
+                                    <input
+                                        className="url-fallback-input"
+                                        value={image}
+                                        onChange={e => setImage(e.target.value)}
+                                        placeholder="...or paste image URL here"
+                                    />
+                                )}
+                            </header>
+
+                            {/* Editor Body */}
+                            <div className="article-body-editor">
+                                <ReactQuill
+                                    theme="snow"
+                                    value={content}
+                                    onChange={setContent}
+                                    modules={{
+                                        toolbar: {
+                                            container: [
+                                                [{ 'header': [1, 2, false] }],
+                                                ['bold', 'italic', 'underline', 'blockquote'],
+                                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                ['link', 'image', 'clean']
+                                            ],
+                                            handlers: {
+                                                image: function () {
+                                                    const input = document.createElement('input');
+                                                    input.setAttribute('type', 'file');
+                                                    input.setAttribute('accept', 'image/*');
+                                                    input.click();
+                                                    input.onchange = async () => {
+                                                        const file = input.files[0];
+                                                        const formData = new FormData();
+                                                        formData.append('image', file);
+                                                        try {
+                                                            const res = await api.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+                                                            this.quill.insertEmbed(this.quill.getSelection().index, 'image', res.data.url);
+                                                        } catch (err) { console.error('Image upload failed', err); }
+                                                    };
+                                                }
                                             }
                                         }
-                                    }
-                                }}
-                                style={{ height: '300px', marginBottom: '50px' }}
-                            />
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-                            <button type="button" onClick={resetForm} style={{ background: 'transparent', border: '1px solid #ddd', padding: '0.8rem 2rem', borderRadius: '12px', cursor: 'pointer' }}>Cancel</button>
-                            <button type="submit" className="btn-primary" style={{
-                                background: 'var(--primary)', color: 'white', border: 'none',
-                                padding: '0.8rem 2rem', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer'
-                            }}>Publish Post</button>
-                        </div>
+                                    }}
+                                />
+                            </div>
+
+                            {/* Action Buttons (Sticky Bottom or Inline) */}
+                            <div className="editor-actions" style={{ marginTop: '3rem', display: 'flex', justifyContent: 'center', gap: '1rem', borderTop: '1px double #ccc', paddingTop: '2rem' }}>
+                                <button type="button" onClick={resetForm} style={{ background: 'transparent', border: '1px solid #888', padding: '0.8rem 2rem', borderRadius: '30px', cursor: 'pointer', fontFamily: 'var(--font-main)' }}>Cancel</button>
+                                <button type="submit" className="btn-primary" style={{ padding: '0.8rem 3rem' }}>
+                                    {editingId ? 'Update Article' : 'Publish Article'}
+                                </button>
+                            </div>
+                        </article>
                     </form>
                 </div>
             )}
