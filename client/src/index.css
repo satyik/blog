@@ -480,6 +480,8 @@ body {
   white-space: normal;
   overflow-wrap: break-word;
   max-width: 100%;
+  padding: 2rem;
+  /* Match Admin Editor padding */
 }
 
 /* Match Editor to Article Styling */
